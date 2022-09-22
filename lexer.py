@@ -1,5 +1,5 @@
 import properties as props
-from token import Token
+from token_class import TokenClass
 from error_handling import *
 
 
@@ -22,22 +22,22 @@ class Lexer:
             if self.current_char in ' \t':
                 self.advance()
             elif self.current_char == '+':
-                tokens.append(Token(props.TT_PLUS))
+                tokens.append(TokenClass(props.TT_PLUS))
                 self.advance()
             elif self.current_char == '-':
-                tokens.append(Token(props.TT_MINUS))
+                tokens.append(TokenClass(props.TT_MINUS))
                 self.advance()
             elif self.current_char == '*':
-                tokens.append(Token(props.TT_MUL))
+                tokens.append(TokenClass(props.TT_MUL))
                 self.advance()
             elif self.current_char == '/':
-                tokens.append(Token(props.TT_DIV))
+                tokens.append(TokenClass(props.TT_DIV))
                 self.advance()
             elif self.current_char == '(':
-                tokens.append(Token(props.TT_LPAREN))
+                tokens.append(TokenClass(props.TT_LPAREN))
                 self.advance()
             elif self.current_char == ')':
-                tokens.append(Token(props.TT_RPAREN))
+                tokens.append(TokenClass(props.TT_RPAREN))
                 self.advance()
             elif self.current_char in props.DIGITS:
                 tokens.append(self.make_number())
@@ -47,7 +47,7 @@ class Lexer:
                 self.advance()
                 return [], IllegalCharError(pos_start, self.pos, f"'{char}'")
 
-        tokens.append(Token(props.TT_EOF, pos_start=self.pos))
+        tokens.append(TokenClass(props.TT_EOF, pos_start=self.pos))
         return tokens, None
 
     def make_number(self):
@@ -65,8 +65,8 @@ class Lexer:
             self.advance()
 
         if dot_count == 0:
-            return Token(props.TT_INT, int(num_str), pos_start, self.pos)
-        return Token(props.TT_FLOAT, float(num_str), pos_start, self.pos)
+            return TokenClass(props.TT_INT, int(num_str), pos_start, self.pos)
+        return TokenClass(props.TT_FLOAT, float(num_str), pos_start, self.pos)
 
 
 class Position:

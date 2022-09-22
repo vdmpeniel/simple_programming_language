@@ -1,15 +1,16 @@
 from lexer import Lexer
 from parser import Parser
+from interpreter import Interpreter
 
 
 def main_loop():
     while True:
         text = input('basic > ')
-        result, error = run('<stdin>', text)
+        rt_result, error = run('<stdin>', text)
         if error:
             print(error.as_string())
         else:
-            print(result)
+            print(rt_result.value)
 
 
 def run(filename, text):
@@ -22,7 +23,20 @@ def run(filename, text):
     # Generate AST (Abstract syntax tree)
     parser = Parser(tokens)
     ast = parser.parse()
-    return ast.node, ast.error
+    if ast.error:
+        return None, ast.error
+
+    # Run program
+    interpreter = Interpreter()
+    rt_result = interpreter.visit(ast.node)
+    return rt_result.value, rt_result.error
+
+
+
+
+
+
+
 
 
 
