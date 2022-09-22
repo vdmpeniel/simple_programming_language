@@ -1,6 +1,6 @@
 from lexer import Lexer
 from parser import Parser
-from interpreter import Interpreter
+from interpreter import Interpreter, Context
 
 
 def main_loop():
@@ -28,7 +28,8 @@ def run(filename, text):
 
     # Run program
     interpreter = Interpreter()
-    rt_result = interpreter.visit(ast.node)
+    context = Context('<Program>')
+    rt_result = interpreter.visit(ast.node, context)
     return rt_result.value, rt_result.error
 
 
